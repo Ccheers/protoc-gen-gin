@@ -8,6 +8,7 @@ package v1
 
 import (
 	context "context"
+	annotations "google.golang.org/genproto/googleapis/api/annotations"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -23,7 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type BlogServiceClient interface {
 	// 获取文章列表
-	GetArticles(ctx context.Context, in *GetArticlesReq, opts ...grpc.CallOption) (*GetArticlesResp, error)
+	GetArticles(ctx context.Context, in *GetArticlesReq, opts ...grpc.CallOption) (*annotations.CustomHttpPattern, error)
 	// 创建文章
 	CreateArticle(ctx context.Context, in *Article, opts ...grpc.CallOption) (*Article, error)
 }
@@ -36,8 +37,8 @@ func NewBlogServiceClient(cc grpc.ClientConnInterface) BlogServiceClient {
 	return &blogServiceClient{cc}
 }
 
-func (c *blogServiceClient) GetArticles(ctx context.Context, in *GetArticlesReq, opts ...grpc.CallOption) (*GetArticlesResp, error) {
-	out := new(GetArticlesResp)
+func (c *blogServiceClient) GetArticles(ctx context.Context, in *GetArticlesReq, opts ...grpc.CallOption) (*annotations.CustomHttpPattern, error) {
+	out := new(annotations.CustomHttpPattern)
 	err := c.cc.Invoke(ctx, "/product.app.v1.BlogService/GetArticles", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -59,7 +60,7 @@ func (c *blogServiceClient) CreateArticle(ctx context.Context, in *Article, opts
 // for forward compatibility
 type BlogServiceServer interface {
 	// 获取文章列表
-	GetArticles(context.Context, *GetArticlesReq) (*GetArticlesResp, error)
+	GetArticles(context.Context, *GetArticlesReq) (*annotations.CustomHttpPattern, error)
 	// 创建文章
 	CreateArticle(context.Context, *Article) (*Article, error)
 	mustEmbedUnimplementedBlogServiceServer()
@@ -69,7 +70,7 @@ type BlogServiceServer interface {
 type UnimplementedBlogServiceServer struct {
 }
 
-func (UnimplementedBlogServiceServer) GetArticles(context.Context, *GetArticlesReq) (*GetArticlesResp, error) {
+func (UnimplementedBlogServiceServer) GetArticles(context.Context, *GetArticlesReq) (*annotations.CustomHttpPattern, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetArticles not implemented")
 }
 func (UnimplementedBlogServiceServer) CreateArticle(context.Context, *Article) (*Article, error) {

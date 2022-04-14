@@ -9,6 +9,7 @@ import (
 	middleware "github.com/go-kratos/kratos/v2/middleware"
 	http "github.com/go-kratos/kratos/v2/transport/http"
 	binding "github.com/go-kratos/kratos/v2/transport/http/binding"
+	annotations "google.golang.org/genproto/googleapis/api/annotations"
 	metadata "google.golang.org/grpc/metadata"
 	url "net/url"
 )
@@ -18,7 +19,7 @@ import (
 
 // blog service is a blog demo
 type BlogServiceGinServer interface {
-	GetArticles(context.Context, *GetArticlesReq) (*GetArticlesResp, error)
+	GetArticles(context.Context, *GetArticlesReq) (*annotations.CustomHttpPattern, error)
 	CreateArticle(context.Context, *Article) (*Article, error)
 }
 
@@ -96,7 +97,7 @@ func GetArticles_0_GinHandler(srv BlogServiceGinServer) func(ctx *gin.Context) {
 			return
 		}
 
-		EncodeResponseFunc(ctx.Writer, ctx.Request, out.(*GetArticlesResp))
+		EncodeResponseFunc(ctx.Writer, ctx.Request, out.(*annotations.CustomHttpPattern))
 	}
 }
 func GetArticles_1_GinHandler(srv BlogServiceGinServer) func(ctx *gin.Context) {
@@ -159,7 +160,7 @@ func GetArticles_1_GinHandler(srv BlogServiceGinServer) func(ctx *gin.Context) {
 			return
 		}
 
-		EncodeResponseFunc(ctx.Writer, ctx.Request, out.(*GetArticlesResp))
+		EncodeResponseFunc(ctx.Writer, ctx.Request, out.(*annotations.CustomHttpPattern))
 	}
 }
 func CreateArticle_0_GinHandler(srv BlogServiceGinServer) func(ctx *gin.Context) {

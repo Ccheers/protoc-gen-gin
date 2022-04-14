@@ -15,25 +15,6 @@ type service struct {
 	MethodSet map[string]*method
 }
 
-//func (s *service) execute() string {
-//	if s.MethodSet == nil {
-//		s.MethodSet = map[string]*method{}
-//		for _, m := range s.Methods {
-//			m := m
-//			s.MethodSet[m.Name] = m
-//		}
-//	}
-//	buf := new(bytes.Buffer)
-//	tmpl, err := template.New("http").Parse(strings.TrimSpace(tpl))
-//	if err != nil {
-//		panic(err)
-//	}
-//	if err := tmpl.Execute(buf, s); err != nil {
-//		panic(err)
-//	}
-//	return buf.String()
-//}
-
 // InterfaceName service interface name
 func (s *service) InterfaceName() string {
 	return s.Name + "GinServer"
