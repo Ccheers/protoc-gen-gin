@@ -116,14 +116,6 @@ func generateMethodList(g *protogen.GeneratedFile, s *service) {
 		g.P("var EncodeErrorFunc = ", kratosHttpPkg.Ident("DefaultErrorEncoder"))
 		g.P("")
 
-		// 注册错误处理
-		g.P("defer func() {")
-		g.P("if err != nil {")
-		g.P("EncodeErrorFunc(ctx.Writer, ctx.Request, err)")
-		g.P("}")
-		g.P("}()")
-		g.P("")
-
 		g.P("out, ok := ctx.Get(\"kratos.http.encoder\")")
 		g.P("if ok {")
 		g.P("EncodeResponseFunc = out.(", kratosHttpPkg.Ident("EncodeResponseFunc"), ")")
@@ -142,6 +134,14 @@ func generateMethodList(g *protogen.GeneratedFile, s *service) {
 		g.P("if ok {")
 		g.P("EncodeErrorFunc = out.(", kratosHttpPkg.Ident("EncodeErrorFunc"), ")")
 		g.P("}")
+		g.P("")
+
+		// 注册错误处理
+		g.P("defer func() {")
+		g.P("if err != nil {")
+		g.P("EncodeErrorFunc(ctx.Writer, ctx.Request, err)")
+		g.P("}")
+		g.P("}()")
 		g.P("")
 
 		if m.HasPathParams() {
